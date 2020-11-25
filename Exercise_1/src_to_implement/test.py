@@ -1,11 +1,8 @@
-import numpy as np
+print(__file__)
 
-error_tensor_1 = np.random.rand(3, 2) - 0.5
-estimated_class_probabilities = np.random.rand(3, 2) - 0.5
+import sys
+import os
 
-print(error_tensor_1)
-Ey = np.multiply(error_tensor_1, estimated_class_probabilities)
-Ey = np.sum(Ey, axis=1)
-Ey = np.transpose(np.expand_dims(Ey, 0).repeat(error_tensor_1.shape[1], axis=0))
-
-print(Ey)
+print(os.path.realpath(__file__))
+print(os.path.split(os.path.realpath(__file__)))
+#sys.path.append(os.path.split(os.path.realpath(__file__))[0])#添加路径，这个是临时的

@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.split(os.path.realpath(__file__))[0])#添加路径，这个是临时的
 
 import unittest
-from Optimization import *
+from Optimization import Optimizers
 from Layers import *
 import numpy as np
 import NeuralNetwork
