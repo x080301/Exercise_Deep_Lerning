@@ -311,7 +311,7 @@ class TestNeuralNetwork(unittest.TestCase):
         net.data_layer = Helpers.IrisData(50)
         net.loss_layer = Loss.CrossEntropyLoss()
 
-        fcl_1 = FullyConnected.FullyConnected(input_size, categories)
+        fcl_1=FullyConnected.FullyConnected(input_size, categories) 
         net.append_trainable_layer(fcl_1)
         net.layers.append(ReLU.ReLU())
         fcl_2 = FullyConnected.FullyConnected(categories, categories)

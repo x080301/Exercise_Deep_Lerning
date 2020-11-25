@@ -9,51 +9,47 @@ from Layers import *
 class NeuralNetwork:
     
     
-    loss = list()
-    layers = list()
-    data_layer = False   
-
-    loss_layer = False
+    
     
     def __init__(self, optimizer):
 
         self.optimizer = optimizer
+        self.loss = list()
+        self.layers = list()
+        self.data_layer = False   
+        self.loss_layer = False
         
     def forward(self):
         
         self.input_tensor = self.data_layer.next()[0]
         self.label_tensor = self.data_layer.next()[1]
 
-        input_size = self.input_tensor.shape[0]
-        output_size = self.label_tensor.shape[0]
+        loop_IO = self.input_tensor
+        
+        for i in range(len(self.layers)):
+            
+            loop_IO = self.layers[i].forward(loop_IO)
 
-        self.layers.append(FullyConnected.FullyConnected(input_size, output_size))
-        self.layers[0].optimizer = copy.deepcopy(self.optimizer)
-
-        self.layers.append(ReLU.ReLU())
-        self.layers.append(SoftMax.SoftMax())
-        self.layers.append(Loss.CrossEntropyLoss())
-
-        output_tensor_FullyConnected = self.layers[0].forward(self.input_tensor)
-        output_tensor_ReLU = self.layers[1].forward(output_tensor_FullyConnected)
-        output_tensor_SoftMax = self.layers[2].forward(output_tensor_ReLU)
-        output_tensor_Loss = self.layers[3].forward(output_tensor_SoftMax, self.label_tensor)
-
+        output_tensor_Loss = self.loss_layer.forward(loop_IO, self.label_tensor)
+        
         return output_tensor_Loss
     
     def backward(self):
+        
+        loop_IO = self.loss_layer.backward(self.label_tensor)
+        
+        for i in range(len(self.layers) - 1, -1, -1):
+            
+            loop_IO = self.layers[i].backward(loop_IO)    
 
-        error_tensor_0_Loss = self.layers[3].backward(self.label_tensor)
-        error_tensor_0_SoftMax = self.layers[2].backward(error_tensor_0_Loss)
-        error_tensor_0_ReLU = self.layers[1].backward(error_tensor_0_SoftMax)
-        error_tensor_0_FullyConnected = self.layers[0].backward(error_tensor_0_ReLU)
-
-        return error_tensor_0_FullyConnected
+        return loop_IO
     
     def append_trainable_layer(self, layer):
                 
         layer.optimizer = copy.deepcopy(self.optimizer)
-        self.layers.append(layer)
+        
+        self.layers.append(copy.deepcopy(layer))
+
 
     def train(self, iterations):
         
@@ -66,11 +62,13 @@ class NeuralNetwork:
     
     def test(self,input_tensor):
 
-        output_tensor_FullyConnected = self.layers[0].forward(input_tensor)
-        output_tensor_ReLU = self.layers[1].forward(output_tensor_FullyConnected)
-        output_tensor_SoftMax = self.layers[2].forward(output_tensor_ReLU)
+        loop_IO = self.input_tensor
+        
+        for i in range(len(self.layers)):
+            
+            loop_IO = self.layers[i].forward(loop_IO)
 
-        return output_tensor_SoftMax
+        return loop_IO
         
 
         
