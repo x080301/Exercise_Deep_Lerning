@@ -1,6 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.split(os.path.realpath(__file__))[0])#添加路径，这个是临时的
+
 import unittest
-from Layers import *
 from Optimization import *
+from Layers import *
 import numpy as np
 import NeuralNetwork
 import matplotlib.pyplot as plt
