@@ -21,8 +21,7 @@ class NeuralNetwork:
         
     def forward(self):
         
-        self.input_tensor = self.data_layer.next()[0]
-        self.label_tensor = self.data_layer.next()[1]
+        self.input_tensor,self.label_tensor = self.data_layer.next()
 
         loop_IO = self.input_tensor
         
@@ -31,7 +30,8 @@ class NeuralNetwork:
             loop_IO = self.layers[i].forward(loop_IO)
 
         output_tensor_Loss = self.loss_layer.forward(loop_IO, self.label_tensor)
-        
+        self.loss.append(output_tensor_Loss)
+                
         return output_tensor_Loss
     
     def backward(self):
@@ -51,6 +51,7 @@ class NeuralNetwork:
         self.layers.append(copy.deepcopy(layer))
 
 
+
     def train(self, iterations):
         
         for i in range(iterations):
@@ -60,9 +61,9 @@ class NeuralNetwork:
 
             self.backward()
     
-    def test(self,input_tensor):
+    def test(self,input_test_data):
 
-        loop_IO = self.input_tensor
+        loop_IO = input_test_data
         
         for i in range(len(self.layers)):
             

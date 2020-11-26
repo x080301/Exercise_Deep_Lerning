@@ -1,4 +1,7 @@
-list=[1,2,3,4,5]
-for i in range(len(list) - 1, -1, -1):
-    print(i)
-    
+class test:
+    pass
+
+test1 = test()
+test1.te = 1
+print(test1.te)
+
