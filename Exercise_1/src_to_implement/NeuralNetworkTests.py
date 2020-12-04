@@ -1,16 +1,11 @@
-import sys
-import os
-sys.path.append(os.path.split(os.path.realpath(__file__))[0])#添加路径，这个是临时的
-
 import unittest
-from Optimization import Optimizers
 from Layers import *
+from Optimization import Optimizers
 import numpy as np
 import NeuralNetwork
 import matplotlib.pyplot as plt
 
 ID = 1  # identifier for dispatcher
-
 class TestFullyConnected(unittest.TestCase):
     def setUp(self):
         self.batch_size = 9
@@ -165,7 +160,7 @@ class TestSoftMax(unittest.TestCase):
         error = layer.backward(error)
         # test if every wrong class confidence is decreased
         for element in error[self.label_tensor == 0]:
-            self.assertGreaterEqual(element, 1/3)
+            self.assertGreaterEqual(element, 1 / 3)
 
         # test if every correct class confidence is increased
         for element in error[self.label_tensor == 1]:
@@ -276,7 +271,8 @@ class TestOptimizers(unittest.TestCase):
 class TestNeuralNetwork(unittest.TestCase):
 
     def test_append_trainable_layer(self):
-        # this test checks if your network actually appends layers and whether it copies the optimizer to these layers
+        # this test checks if your network actually appends layers and whether
+        # it copies the optimizer to these layers
         net = NeuralNetwork.NeuralNetwork(Optimizers.Sgd(1))
         fcl_1 = FullyConnected.FullyConnected(1, 1)
         net.append_trainable_layer(fcl_1)
@@ -311,7 +307,7 @@ class TestNeuralNetwork(unittest.TestCase):
         net.data_layer = Helpers.IrisData(50)
         net.loss_layer = Loss.CrossEntropyLoss()
 
-        fcl_1=FullyConnected.FullyConnected(input_size, categories) 
+        fcl_1 = FullyConnected.FullyConnected(input_size, categories)
         net.append_trainable_layer(fcl_1)
         net.layers.append(ReLU.ReLU())
         fcl_2 = FullyConnected.FullyConnected(categories, categories)
@@ -356,7 +352,7 @@ class L2Loss:
         return np.sum(np.square(input_tensor - label_tensor))
 
     def backward(self, label_tensor):
-        return 2*np.subtract(self.input_tensor, label_tensor)
+        return 2 * np.subtract(self.input_tensor, label_tensor)
 
 if __name__ == '__main__':
     unittest.main()

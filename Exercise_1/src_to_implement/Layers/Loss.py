@@ -10,7 +10,7 @@ class CrossEntropyLoss:
         self.input_tensor = input_tensor
 
         CrossEntropy = np.multiply(np.log(input_tensor + np.finfo(float).eps), label_tensor)
-               
+        
         CrossEntropy = -np.sum(CrossEntropy)
 
         return CrossEntropy

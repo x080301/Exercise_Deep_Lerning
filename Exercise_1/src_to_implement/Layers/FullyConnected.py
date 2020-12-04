@@ -39,8 +39,7 @@ class FullyConnected:
         #print(self.input_tensor.shape, "_______", self.weights.shape)
         #print(self.input_size,"_____________",self.output_size)
         #import  os
-        #os.system('pause')
-        
+        #os.system('pause')       
 
 
         output_tensor = np.matmul(self.input_tensor, self.weights)
@@ -62,15 +61,12 @@ class FullyConnected:
         self.gradient_weights = np.matmul(np.transpose(self.input_tensor), error_tensor_1_prime)
         
         #update weights
-        if self.optimizer:        
+        if self.optimizer:
             
             #self.run_optimizer = self.optimizer
             
             #self.weights = self.run_optimizer.calculate_update(self.weights, self.gradient_weights)
-            self.weights = self.optimizer.calculate_update(self.weights, self.gradient_weights)
-
-
-           
+            self.weights = self.optimizer.calculate_update(self.weights, self.gradient_weights)          
 
 
         return error_tensor_0

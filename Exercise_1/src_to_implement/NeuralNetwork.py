@@ -1,14 +1,12 @@
 import sys
 import os
-import copy
-sys.path.append(os.path.split(os.path.realpath(__file__))[0])#添加路径，这个是临时的
 
+sys.path.append(os.path.split(os.path.realpath(__file__))[0])#添加路径，这个是临时的
+import copy
 import numpy as np
 from Layers import *
 
 class NeuralNetwork:
-    
-    
     
     
     def __init__(self, optimizer):
